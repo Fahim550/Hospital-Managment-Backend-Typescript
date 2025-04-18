@@ -1,6 +1,10 @@
-export interface Tpatient {
+export interface TPatient {
   name: string;
   email: string;
-  phone: string;
-  address: string;
+  password: string;
+  age: number;
+  gender: "Male" | "Female" | "Other";
+  phone?: string;
+  address?: string;
+  isDeleted?: boolean;
 }

@@ -1,9 +1,22 @@
 export interface Tdoctor {
   name: string;
   email: string;
-  specialty: string;
-  phone: string;
-  password: string;
+  password?: string;
   image: string;
-  address: string;
+  graduation: string;
+  specilities:
+    | "Child-Care"
+    | "Diabetes"
+    | "Gynae"
+    | "Kidny"
+    | "Psychology"
+    | "Skin"
+    | "Orthopedics"
+    | "General-Physician";
+  workDetails: string;
+  experience: string;
+  consultationFee: string;
+  phone: string;
+  gender?: "Male" | "Female" | "Other";
+  isDeleted?: boolean;
 }
