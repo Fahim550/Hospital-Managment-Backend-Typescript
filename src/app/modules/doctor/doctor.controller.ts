@@ -3,8 +3,20 @@ import { catchAsync } from "../../utils/CatchAsync";
 import sendResponse from "../../utils/SendResponse";
 import { DoctorServices } from "./doctor.service";
 
-const getAllDoctor = catchAsync(async (req, res, next) => {
+const getAllDoctor = catchAsync(async (req, res) => {
   const result = await DoctorServices.getAllDoctorDB();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Confirmed doctors retrieved successfully",
+    data: result,
+  });
+});
+
+const getSingleDoctor = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await DoctorServices.getSingleDoctorDB(id);
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -12,20 +24,18 @@ const getAllDoctor = catchAsync(async (req, res, next) => {
     data: result,
   });
 });
-//   if (!result) {
-//     res.status(404).json({
-//       success: false,
-//       message: "Doctor not found",
-//     });
-//   }
-//   res.status(200).json({
-//     success: true,
-//     message: "Doctor retrieved successfully",
-//     data: result,
-//   });
-// });
 
-const createDoctor = catchAsync(async (req, res, next) => {
+const getDoctorRegisterRequest = catchAsync(async (req, res) => {
+  const result = await DoctorServices.getDoctorRegisterRequestDB();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Doctor register requests retrieved successfully",
+    data: result,
+  });
+});
+
+const createDoctor = catchAsync(async (req, res) => {
   const result = await DoctorServices.createDoctorDB(req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -37,18 +47,7 @@ const createDoctor = catchAsync(async (req, res, next) => {
 
 const updateDoctor = catchAsync(async (req, res) => {
   const { id } = req.params;
-  console.log("id", id);
   const result = await DoctorServices.updateDoctorDB(id, req.body);
-
-  if (!result) {
-    return sendResponse(res, {
-      statusCode: httpStatus.NOT_FOUND,
-      success: false,
-      message: "Doctor not found or update failed",
-      data: null,
-    });
-  }
-
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -57,10 +56,20 @@ const updateDoctor = catchAsync(async (req, res) => {
   });
 });
 
+const confirmDoctor = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await DoctorServices.confirmDoctorByAdmin(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Doctor confirmed successfully",
+    data: result,
+  });
+});
+
 const deleteDoctor = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await DoctorServices.deleteDoctorDB(id);
-
+  const result = await DoctorServices.deleteDoctorByAdmin(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -71,7 +80,10 @@ const deleteDoctor = catchAsync(async (req, res) => {
 
 export const DoctorControllers = {
   getAllDoctor,
+  getSingleDoctor,
+  getDoctorRegisterRequest,
   createDoctor,
   updateDoctor,
+  confirmDoctor,
   deleteDoctor,
 };

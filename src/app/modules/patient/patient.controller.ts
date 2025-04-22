@@ -13,6 +13,18 @@ const getAllPatient = catchAsync(async (req, res) => {
   });
 });
 
+const getSinglePatient = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await PatientServices.getSinglePatientDB(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Patient retrieved successfully",
+    data: result,
+  });
+});
+
 const createPatient = catchAsync(async (req, res) => {
   const result = await PatientServices.createPatientDB(req.body);
   sendResponse(res, {
@@ -47,6 +59,7 @@ const deletePatient = catchAsync(async (req, res) => {
 
 export const PatientControllers = {
   getAllPatient,
+  getSinglePatient,
   createPatient,
   updatePatient,
   deletePatient,

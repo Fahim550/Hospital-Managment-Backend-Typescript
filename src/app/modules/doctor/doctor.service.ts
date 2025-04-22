@@ -1,46 +1,57 @@
 import { Doctor } from "./doctor.model";
 
 const getAllDoctorDB = async () => {
-  const result = await Doctor.find();
-  return result;
+  return await Doctor.find({ isDeleted: false });
+};
+
+const getSingleDoctorDB = async (id: string) => {
+  const doctor = await Doctor.findOne({
+    _id: id,
+    isDeleted: false,
+    // isConfirmed: true,
+  });
+  if (!doctor) throw new Error("Doctor not found or not confirmed!");
+  return doctor;
+};
+
+const getDoctorRegisterRequestDB = async () => {
+  return await Doctor.find({ isDeleted: false, isConfirmed: false });
 };
 
 const createDoctorDB = async (data: any) => {
-  const existingDoctor = await Doctor.findOne({ email: data.email });
-
-  if (existingDoctor) {
-    throw new Error("Doctor already exists!");
-  }
-
-  const result = await Doctor.create(data);
-  return result;
+  const exists = await Doctor.findOne({ email: data.email });
+  if (exists) throw new Error("Doctor already exists!");
+  return await Doctor.create(data);
 };
 
 const updateDoctorDB = async (id: string, data: any) => {
-  const existingDoctor = await Doctor.findById(id);
-
-  if (!existingDoctor) {
-    throw new Error("Doctor not found!");
-  }
-
-  const result = await Doctor.findByIdAndUpdate(id, data, { new: true });
-  return result;
+  const doctor = await Doctor.findById(id);
+  if (!doctor) throw new Error("Doctor not found!");
+  return await Doctor.findByIdAndUpdate(id, data, { new: true });
 };
 
-const deleteDoctorDB = async (id: string) => {
-  const existingDoctor = await Doctor.findById(id);
+const confirmDoctorByAdmin = async (id: string) => {
+  const doctor = await Doctor.findById(id);
+  if (!doctor) throw new Error("Doctor not found!");
+  return await Doctor.findByIdAndUpdate(
+    id,
+    { isConfirmed: true },
+    { new: true }
+  );
+};
 
-  if (!existingDoctor) {
-    throw new Error("Doctor not found!");
-  }
-
-  const result = await Doctor.findByIdAndDelete(id);
-  return result;
+const deleteDoctorByAdmin = async (id: string) => {
+  const doctor = await Doctor.findById(id);
+  if (!doctor) throw new Error("Doctor not found!");
+  return await Doctor.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
 };
 
 export const DoctorServices = {
   getAllDoctorDB,
+  getSingleDoctorDB,
+  getDoctorRegisterRequestDB,
   createDoctorDB,
   updateDoctorDB,
-  deleteDoctorDB,
+  confirmDoctorByAdmin,
+  deleteDoctorByAdmin,
 };

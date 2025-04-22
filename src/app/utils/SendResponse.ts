@@ -7,11 +7,11 @@ type TResponse<T> = {
   data: T;
 };
 
-const SendResponse = <T>(res: Response, data: TResponse<T>) => {
+const sendResponse = <T>(res: Response, data: TResponse<T>) => {
   res.status(data?.statusCode).json({
     success: data?.success,
     message: data?.message,
     data: data?.data,
   });
 };
-export default SendResponse;
+export default sendResponse;

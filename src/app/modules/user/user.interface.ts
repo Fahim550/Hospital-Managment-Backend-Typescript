@@ -1,8 +1,12 @@
-export interface Tpatient {
+import { Types } from "mongoose";
+
+export interface TUser {
   name: string;
   email: string;
-  phone: string;
-  address: string;
-  role: "patient" | "doctor" | "admin";
-  isDeleted: boolean;
+  password: string;
+  role: "admin" | "doctor" | "patient";
+  isDeleted?: boolean;
+
+  roleRef?: Types.ObjectId;
+  roleModel?: "Admin" | "Doctor" | "Patient";
 }

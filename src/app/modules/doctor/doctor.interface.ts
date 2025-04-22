@@ -1,8 +1,10 @@
-export interface Tdoctor {
-  name: string;
-  email: string;
-  password?: string;
-  image: string;
+// doctor.interface.ts
+import { Types } from "mongoose";
+
+export interface TDoctor {
+  user: Types.ObjectId;
+  specialty: string;
+  image?: string;
   graduation: string;
   specilities:
     | "Child-Care"
@@ -17,6 +19,6 @@ export interface Tdoctor {
   experience: string;
   consultationFee: string;
   phone: string;
-  gender?: "Male" | "Female" | "Other";
+  isConfirmed?: boolean;
   isDeleted?: boolean;
 }

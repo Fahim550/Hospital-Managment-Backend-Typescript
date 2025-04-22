@@ -1,10 +1,11 @@
+// patient.interface.ts
+import { Types } from "mongoose";
+
 export interface TPatient {
-  name: string;
-  email: string;
-  password: string;
+  user: Types.ObjectId;
   age: number;
-  gender: "Male" | "Female" | "Other";
-  phone?: string;
+  gender: "male" | "female";
+  phone: string;
   address?: string;
   isDeleted?: boolean;
 }

@@ -1,8 +1,18 @@
 import { Patient } from "./patient.model";
 
 const getAllPatientDB = async () => {
-  const result = await Patient.find();
-  return result;
+  const patient = await Patient.find({ isDeleted: false });
+  return patient;
+};
+
+const getSinglePatientDB = async (id: string) => {
+  const patient = await Patient.findOne({
+    _id: id,
+    isDeleted: false,
+    isConfirmed: true,
+  });
+  if (!Patient) throw new Error("Patient not found or not confirmed!");
+  return patient;
 };
 
 const createPatientDB = async (data: any) => {
@@ -12,8 +22,8 @@ const createPatientDB = async (data: any) => {
     throw new Error("Patient already exists!");
   }
 
-  const result = await Patient.create(data);
-  return result;
+  const patient = await Patient.create(data);
+  return patient;
 };
 
 const updatePatientDB = async (id: string, data: any) => {
@@ -23,8 +33,8 @@ const updatePatientDB = async (id: string, data: any) => {
     throw new Error("Patient not found!");
   }
 
-  const result = await Patient.findByIdAndUpdate(id, data, { new: true });
-  return result;
+  const patient = await Patient.findByIdAndUpdate(id, data, { new: true });
+  return patient;
 };
 
 const deletePatientDB = async (id: string) => {
@@ -34,12 +44,13 @@ const deletePatientDB = async (id: string) => {
     throw new Error("Patient not found!");
   }
 
-  const result = await Patient.findByIdAndDelete(id);
-  return result;
+  const patient = await Patient.findByIdAndDelete(id);
+  return patient;
 };
 
 export const PatientServices = {
   getAllPatientDB,
+  getSinglePatientDB,
   createPatientDB,
   updatePatientDB,
   deletePatientDB,

@@ -1,21 +1,19 @@
 import { Admin } from "./admin.model";
 
-const getAllAdminDB = async () => {
-  return await Admin.find();
-};
-
 const createAdminDB = async (data: any) => {
-  const existingAdmins = await Admin.find();
-
-  if (existingAdmins.length > 0) {
-    throw new Error("Only one admin is allowed in the system!");
-  }
-
+  const alreadyAdmin = await Admin.findOne({});
+  if (alreadyAdmin) throw new Error("Admin already exists!");
   const result = await Admin.create(data);
   return result;
 };
 
+const getAdminDB = async () => {
+  const result = await Admin.findOne({});
+  if (!result) throw new Error("Admin not found!");
+  return result;
+};
+
 export const AdminServices = {
-  getAllAdminDB,
   createAdminDB,
+  getAdminDB,
 };
