@@ -1,13 +1,15 @@
 // patient.model.ts
 import { Schema, model } from "mongoose";
-import { TPatient } from "./patient.interface";
+import { IPatient } from "./patient.interface";
 
-const patientSchema = new Schema<TPatient>(
+const patientSchema = new Schema<IPatient>(
   {
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    age: { type: Number, required: true },
-    gender: { type: String, enum: ["male", "female"], required: true },
-    phone: { type: String, required: true },
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    age: { type: Number },
+    gender: { type: String, enum: ["male", "female"] },
+    phone: { type: String },
     address: { type: String },
     isDeleted: { type: Boolean, default: false },
   },

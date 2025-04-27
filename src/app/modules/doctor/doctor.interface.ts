@@ -1,10 +1,14 @@
 // doctor.interface.ts
 import { Types } from "mongoose";
 
+export interface TAvilability {
+  days: string[];
+  timeSlots: string[];
+}
+
 export interface TDoctor {
   user: Types.ObjectId;
   specialty: string;
-  image?: string;
   graduation: string;
   specilities:
     | "Child-Care"
@@ -19,6 +23,8 @@ export interface TDoctor {
   experience: string;
   consultationFee: string;
   phone: string;
+  image?: string;
+  status: "pending" | "approved" | "rejected";
   isConfirmed?: boolean;
   isDeleted?: boolean;
 }

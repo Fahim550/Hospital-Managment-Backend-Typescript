@@ -1,5 +1,5 @@
 // user.model.ts
-import mongoose, { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 import { TUser } from "./user.interface";
 
 const userSchema = new Schema<TUser>(
@@ -13,18 +13,14 @@ const userSchema = new Schema<TUser>(
       required: true,
     },
     isDeleted: { type: Boolean, default: false },
-    roleRef: {
-      type: mongoose.Schema.Types.ObjectId,
-      refPath: "roleModel",
-    },
+    roleRef: { type: Types.ObjectId, refPath: "roleModel" },
     roleModel: {
       type: String,
-      required: true,
       enum: ["Admin", "Doctor", "Patient"],
+      required: true,
     },
-  }
-
-  // { timestamps: true }
+  },
+  { timestamps: true, versionKey: false }
 );
 
 export const User = model<TUser>("User", userSchema);

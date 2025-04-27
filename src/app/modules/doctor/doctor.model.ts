@@ -1,15 +1,15 @@
 // doctor.model.ts
 import { Schema, model } from "mongoose";
-import { TDoctor } from "./doctor.interface";
+import { IDoctor } from "./doctor.interface";
 
-const doctorSchema = new Schema<TDoctor>(
+const doctorSchema = new Schema<IDoctor>(
   {
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    specialty: { type: String, required: true },
-    graduation: { type: String, required: true },
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    graduation: { type: String },
     specilities: {
       type: String,
-      required: true,
       enum: [
         "Child-Care",
         "Diabetes",
@@ -21,15 +21,21 @@ const doctorSchema = new Schema<TDoctor>(
         "General-Physician",
       ],
     },
-    workDetails: { type: String, required: true },
-    experience: { type: String, required: true },
-    consultationFee: { type: String, required: true },
-    phone: { type: String, required: true },
+    workDetails: { type: String },
+    experience: { type: String },
+    consultationFee: { type: String },
+    phone: { type: String },
     image: { type: String },
+    status: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      require: true,
+      default: "pending",
+    },
     isConfirmed: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
 
-export const Doctor = model<TDoctor>("Doctor", doctorSchema);
+export const Doctor = model<IDoctor>("Doctor", doctorSchema);

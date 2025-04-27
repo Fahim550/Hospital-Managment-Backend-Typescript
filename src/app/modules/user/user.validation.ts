@@ -15,7 +15,7 @@ const createUserValidationSchema = z.object({
     role: z.enum(["admin", "doctor", "patient"]),
     // status: z.enum(["in-progress", "blocked"]),
     isDeleted: z.boolean().default(false),
-    roleModel: z.enum(["Admin", "Doctor", "Patient", "Staff"]),
+    roleModel: z.enum(["Admin", "Doctor", "Patient"]),
   }),
 });
 

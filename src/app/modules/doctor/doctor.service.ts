@@ -1,7 +1,7 @@
 import { Doctor } from "./doctor.model";
 
 const getAllDoctorDB = async () => {
-  return await Doctor.find({ isDeleted: false });
+  return await Doctor.find({ isDeleted: false }).populate("doctors");
 };
 
 const getSingleDoctorDB = async (id: string) => {
@@ -9,7 +9,7 @@ const getSingleDoctorDB = async (id: string) => {
     _id: id,
     isDeleted: false,
     // isConfirmed: true,
-  });
+  }).populate("doctors");
   if (!doctor) throw new Error("Doctor not found or not confirmed!");
   return doctor;
 };
@@ -27,7 +27,9 @@ const createDoctorDB = async (data: any) => {
 const updateDoctorDB = async (id: string, data: any) => {
   const doctor = await Doctor.findById(id);
   if (!doctor) throw new Error("Doctor not found!");
-  return await Doctor.findByIdAndUpdate(id, data, { new: true });
+  return await Doctor.findByIdAndUpdate(id, data, { new: true }).populate(
+    "doctors"
+  );
 };
 
 const confirmDoctorByAdmin = async (id: string) => {

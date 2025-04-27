@@ -6,7 +6,6 @@ export interface TUser {
   password: string;
   role: "admin" | "doctor" | "patient";
   isDeleted?: boolean;
-
   roleRef?: Types.ObjectId;
   roleModel?: "Admin" | "Doctor" | "Patient";
 }

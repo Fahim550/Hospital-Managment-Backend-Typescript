@@ -1,7 +1,7 @@
 import { Patient } from "./patient.model";
 
 const getAllPatientDB = async () => {
-  const patient = await Patient.find({ isDeleted: false });
+  const patient = await Patient.find({ isDeleted: false }).populate("user");
   return patient;
 };
 
@@ -10,7 +10,7 @@ const getSinglePatientDB = async (id: string) => {
     _id: id,
     isDeleted: false,
     isConfirmed: true,
-  });
+  }).populate("user");
   if (!Patient) throw new Error("Patient not found or not confirmed!");
   return patient;
 };
