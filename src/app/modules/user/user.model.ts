@@ -1,8 +1,8 @@
 // user.model.ts
 import { Schema, Types, model } from "mongoose";
-import { TUser } from "./user.interface";
+import { IUser } from "./user.interface";
 
-const userSchema = new Schema<TUser>(
+const userSchema = new Schema<IUser>(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -13,6 +13,7 @@ const userSchema = new Schema<TUser>(
       required: true,
     },
     isDeleted: { type: Boolean, default: false },
+    status: { type: String, enum: ["in-progress", "blocked"] },
     roleRef: { type: Types.ObjectId, refPath: "roleModel" },
     roleModel: {
       type: String,
@@ -23,4 +24,4 @@ const userSchema = new Schema<TUser>(
   { timestamps: true, versionKey: false }
 );
 
-export const User = model<TUser>("User", userSchema);
+export const User = model<IUser>("User", userSchema);

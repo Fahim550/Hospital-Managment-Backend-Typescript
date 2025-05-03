@@ -4,7 +4,7 @@ import config from "../../config";
 import ApiError from "../../utils/ApiError";
 import { Doctor } from "../doctor/doctor.model";
 import { Patient } from "../patient/patient.model";
-import { TUser } from "./user.interface";
+import { IUser } from "./user.interface";
 import { User } from "./user.model";
 
 const getAllUsersDB = async () => {
@@ -19,7 +19,7 @@ const getUserByIdDB = async (id: string) => {
   return user;
 };
 
-const createUserDB = async (payload: TUser) => {
+const createUserDB = async (payload: IUser) => {
   const exists = await User.findOne({ email: payload.email });
   if (exists) throw new ApiError(httpStatus.CONFLICT, "User already exists!");
 

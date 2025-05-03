@@ -27,7 +27,7 @@ const createPatientDB = async (data: any) => {
 };
 
 const updatePatientDB = async (id: string, data: any) => {
-  const existingPatient = await Patient.findById(id);
+  const existingPatient = await Patient.findById(id).populate("user");
 
   if (!existingPatient) {
     throw new Error("Patient not found!");

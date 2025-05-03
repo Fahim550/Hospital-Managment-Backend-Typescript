@@ -6,7 +6,9 @@ export interface TAvilability {
   timeSlots: string[];
 }
 
-export interface TDoctor {
+export interface IDoctor {
+  name: string;
+  email: string;
   user: Types.ObjectId;
   specialty: string;
   graduation: string;

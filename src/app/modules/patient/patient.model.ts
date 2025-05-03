@@ -12,8 +12,9 @@ const patientSchema = new Schema<IPatient>(
     phone: { type: String },
     address: { type: String },
     isDeleted: { type: Boolean, default: false },
+    status: { type: String, enum: ["approved", "rejected"] },
   },
   { timestamps: true }
 );
 
-export const Patient = model<TPatient>("Patient", patientSchema);
+export const Patient = model<IPatient>("Patient", patientSchema);
