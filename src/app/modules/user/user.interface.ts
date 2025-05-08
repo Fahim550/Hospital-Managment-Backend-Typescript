@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import USER_ROLE from "../../constants/userRole";
 
 export interface IUser {
   name: string;
@@ -10,3 +11,5 @@ export interface IUser {
   roleRef?: Types.ObjectId;
   roleModel?: "Admin" | "Doctor" | "Patient";
 }
+
+export type TUserRole = keyof typeof USER_ROLE;
