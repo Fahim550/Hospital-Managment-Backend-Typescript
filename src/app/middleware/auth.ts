@@ -16,7 +16,7 @@ const auth = (...requireRoles: TUserRole[]) => {
         "Token not found, UNAUTHORIZED User"
       );
     }
-    let decoded: JwtPayload;
+    let decoded;
 
     try {
       decoded = verifyToken(token, config.jwt_access as string);
@@ -26,7 +26,7 @@ const auth = (...requireRoles: TUserRole[]) => {
         "Could not verify token. UNAUTHORIZED User"
       );
     }
-    const { userId, role } = decoded;
+    const { userId, role } = decoded as JwtPayload;
 
     const user = await User.findById(userId);
 

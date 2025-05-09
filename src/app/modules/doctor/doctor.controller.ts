@@ -24,6 +24,17 @@ const getSingleDoctor = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const uploadDoctorImage = catchAsync(async (req, res, next) => {
+  console.log(req.file);
+  const result = await DoctorServices.uploadDoctorImageDB(req.file);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Doctor image upload successfully",
+    data: result,
+  });
+});
 
 const getDoctorRegisterRequest = catchAsync(async (req, res) => {
   const result = await DoctorServices.getDoctorRegisterRequestDB();
@@ -81,6 +92,7 @@ const deleteDoctor = catchAsync(async (req, res) => {
 export const DoctorControllers = {
   getAllDoctor,
   getSingleDoctor,
+  uploadDoctorImage,
   getDoctorRegisterRequest,
   createDoctor,
   updateDoctor,

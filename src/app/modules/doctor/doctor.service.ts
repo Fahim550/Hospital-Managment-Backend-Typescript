@@ -13,6 +13,9 @@ const getSingleDoctorDB = async (id: string) => {
   if (!doctor) throw new Error("Doctor not found or not confirmed!");
   return doctor;
 };
+const uploadDoctorImageDB = async (file: any) => {
+  console.log(file);
+};
 
 const getDoctorRegisterRequestDB = async () => {
   return await Doctor.find({ isDeleted: false, isConfirmed: false });
@@ -52,6 +55,7 @@ export const DoctorServices = {
   getAllDoctorDB,
   getSingleDoctorDB,
   getDoctorRegisterRequestDB,
+  uploadDoctorImageDB,
   createDoctorDB,
   updateDoctorDB,
   confirmDoctorByAdmin,

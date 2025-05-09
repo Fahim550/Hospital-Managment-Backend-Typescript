@@ -28,7 +28,41 @@ const changePassword = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
-    message: "Login successfully",
+    message: "Password Change successfully",
+    data: result,
+  });
+});
+
+const refreshToken = catchAsync(async (req, res) => {
+  console.log("cookis", req.cookies);
+  const result = await AuthServices.refreshToken(req.cookies.refreshToken);
+  console.log(req.user);
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: "Token is refresh successfully",
+    data: result,
+  });
+});
+
+const forgetPassword = catchAsync(async (req, res) => {
+  const result = await AuthServices.forgetPassword(req.body.email);
+  console.log(req.user);
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: "Please check your email",
+    data: result,
+  });
+});
+const resetPassword = catchAsync(async (req, res) => {
+  const token = req.headers.authorization as string;
+  const result = await AuthServices.resetPassword(req.body, token);
+  console.log(req.user);
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: "Password has been reset",
     data: result,
   });
 });
@@ -36,4 +70,7 @@ const changePassword = catchAsync(async (req, res) => {
 export const AuthController = {
   loginUser,
   changePassword,
+  refreshToken,
+  forgetPassword,
+  resetPassword,
 };
